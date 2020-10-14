@@ -1,8 +1,8 @@
 .paragraph {
     color: blue;
     font-family: Verdana;
-    font-size: 14px;
-    align: center;
+    font-size: 20px;
+    text-align: center;
   }
   
 .heading {
@@ -10,5 +10,5 @@
     color: red;
     font-size: 20px;
     letter-spacing: 1px;
-    align-items: center;
+    text-align: center;
 }
