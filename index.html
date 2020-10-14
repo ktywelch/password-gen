@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate a random code based on user criteria</title>
+     <!-- Load the bootstrap css-->
+     <link
+     rel="stylesheet"
+     href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+     crossorigin="anonymous"
+   />  
+   <link rel="stylesheet" href="./assets/css/style.css" >
+</head>
+<body>
+  <div class="container-fluid">
+   <div id="retPWCont" class="w-50 border border-info rounded mx-auto d-block p-3" style="height: 200px;"></div>
+  </div>
+
+<div id="ButtonContainer" class="container ">
+  <div class="mx-auto d-block p-2" > 
+  <!-- Button trigger modal -->   
+  <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#criteriaModal">
+     Generate new password
+  </button>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="criteriaModal" tabindex="-1" role="dialog" aria-labelledby="criteriaModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="criteriaModalLabel">Please Enter Password Critera</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+      <div class="modal-body">
+        <form role="form" id="criteriaForm">
+          <p>Specify Password Parameters</p> 
+           <div class="container">
+            <div class="form-group"> 
+               <label for="pwLen">Specify Length of Password</label>
+               <input type="number" id="pwLen" name="pwLen" min="8" max="128"> 
+            </div>
+            <div id="CheckBoxes" class="checkbox">
+              <label><input type="checkbox" name="nums" value=""> Numbers</label>
+              <label><input type="checkbox" name="lowLet" value=""> Lower Case</label>
+              <label><input type="checkbox" name="upLet" value=""> Upper Case</label>
+              <label><input type="checkbox" name="spChar" value=""> Special Characters</label>
+             </div>
+
+          </div>
+          </form>  
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnClose">Close</button>
+        <button type="submit" class="btn btn-primary" id="btnSaveIt">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+    <!-- Include the dependency scripts for bootstrap css -->
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JavaScript CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="assets/js/pw-gen-app.js"></script>
+
+</html>

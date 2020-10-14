@@ -1,0 +1,14 @@
+.paragraph {
+    color: blue;
+    font-family: Verdana;
+    font-size: 14px;
+    align: center;
+  }
+  
+.heading {
+    font-family: Verdana;
+    color: red;
+    font-size: 20px;
+    letter-spacing: 1px;
+    align-items: center;
+}
