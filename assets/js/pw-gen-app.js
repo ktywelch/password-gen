@@ -7,9 +7,16 @@ const charTypes = ["nums", "upLet", "lowLet", "spChar"];
 const spcChar = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
 const upChar = "ABCDEFGHIJKLMNOPQURSTUVXYZ";
 const numChar = "123456789"
-const lowChar = upChar.toLowerCase();
-let pwReqS = "";
-let numChars = 0;
+const lowChars = upChar.toLowerCase();
+const emCharA = ["128512","128513","128514","128515","128516","128517","128518","128519","128520","128521","128522","128523",
+"128524","128525","128526","128527","128528","128529","128530","128531","128532","128533","128534","128535"];
+const pwReqS = [];
+ totChars = 0;
+// need to have the strings as arrays
+let spcCharA = spcChar.split('');
+let upCharA = upChar.split('');
+let numCharA = numChar.split('');
+let lowCharA = lowChars.split('');
 
 var dict = {
   nums: false,
@@ -20,38 +27,68 @@ var dict = {
   lowLC: 0,
   spChar: false,
   spCC: 0,
-  numsTrue: function() {this.nums = true; pwReqS = pwReqS + numChar; this.numsC = 2},
-  upLetTrue: function() {this.upLet = true ; pwReqS = pwReqS + upChar; this.upLC = 2},
-  lowLetTrue: function() {this.lowLet = true; pwReqS = pwReqS + lowChar; this.lowLC = 2},
-  spCharTrue: function() {this.spChar = true; pwReqS = pwReqS + spcChar; this.spCC = 2}
+  emChar: false,
+  emCC: 0,
+  numsTrue: function() {this.nums = true; pwReqS.push.apply(pwReqS, numCharA); this.numsC = 1},
+  upLetTrue: function() {this.upLet = true ; pwReqS.push.apply(pwReqS, upCharA); this.upLC = 2},
+  lowLetTrue: function() {this.lowLet = true; pwReqS.push.apply(pwReqS, lowCharA); this.lowLC = 2},
+  spCharTrue: function() {this.spChar = true; pwReqS.push.apply(pwReqS, spcCharA); this.spCC = 2},
+  emCharTrue: function() {this.emChar = true; pwReqS.push.apply(pwReqS, emCharA); this.emCC = 1}
 }
+
 
 // Main function calls others and returns the value to the form
 function createReturnPW(){
-  getParams();
-     // clear any contents in the return container left from previous runs
-     $('#retPWCont').empty();
+ let   veriConv = "", var1 ="";
+ 
+ 
+// clear things up between executions! 
+$('#retPWCont').empty();
+ pwReqS.length = 0;
+
+// go get the parameters!
+ getParams();
+
+
+  
+
      //generate random password that should meet the criteria  
-     let newPw = ""; isGood = "";
-     // Going to keep generating passwords until we get one that works!
+     let newPw = [], isGood = "", n=0;
+
+     // Going to keep generating passwords until we get one that min 2 of each type
      while(isGood !== "ok"){
-        newPw = genPW(numChars);
-        isGood = veri(newPw);
+        newPw.length = 0; 
+        newPw = genPW(totChars);
+        isGood = veriPW(newPw);
       } 
+    // Now that we have emojis need to make the emojis viewable in the paragraph string
+    for (let i = 0; i< newPw.length;i++){
+      currChar = newPw[i];
+      if (currChar > 1){
+        var1 = String.fromCodePoint(parseInt(currChar));
+      } else {
+        var1 = currChar;
+      }
+    veriConv = veriConv + var1;
+    }
+
+
      //Return the password to the user in container by usging get the element ID where I want this to go
-     
      var pwContainer = document.getElementById("retPWCont");
      var newH1 = document.createElement("h1");
      var newP = document.createElement("p");
 
      newH1.textContent = "Generated Password";
      newH1.setAttribute("class","heading")
-     newP.textContent = newPw;
+     newP.textContent = veriConv;
      newP.setAttribute("class","paragraph")
      pwContainer.appendChild(newH1);
      pwContainer.appendChild(newP);
       
     }
+
+
+
 
 function getParams(){
 /*Function to get the parameters from the form and verify 
@@ -61,14 +98,14 @@ at least one type is selected and that the # of characters is betwwen 8 adb 128*
 let checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 //get the value of the field pwLen
-numChars = document.getElementById('pwLen').value;
+totChars = document.getElementById('pwLen').value;
 
 /*put if checkboxes are true or false update the dict object so that I can use it later
 the methods also prepares the characters for we will be using to generate the password*/
 
 for (var i = 0; i < checkboxes.length; i++) {
   let nm=checkboxes[i].name;
-  let val=checkboxes[i].checked
+  let val=checkboxes[i].checked;
   if (nm === "nums" && val)
   {dict.numsTrue()}
   if (nm === "upLet" && val)
@@ -77,11 +114,15 @@ for (var i = 0; i < checkboxes.length; i++) {
   {dict.lowLetTrue()}
   if (nm === "spChar" && val)
   {dict.spCharTrue()}
-  }  
+  if (nm === "emChar" && val)
+  {dict.emCharTrue()}
+    
   //console.log(dict);
+  console.log("this is new array " + pwReqS);
+}
 
  //using the dict object to make sure at least one character type is selected and num of characters between 8 and 128 
-if((dict.nums||dict.upLet||dict.lowLet||dict.spChar) &&  (numChars >= 8 &&  numChars <= 128)) {
+if((dict.nums||dict.upLet||dict.lowLet||dict.spChar||dict.emChar) &&  (totChars >= 8 &&  totChars <= 128)) {
   // Hide the modal again
   $('#criteriaModal').modal('hide')
   //ANd reset the form fields to default  
@@ -93,50 +134,57 @@ if((dict.nums||dict.upLet||dict.lowLet||dict.spChar) &&  (numChars >= 8 &&  numC
    alert("Number of Characters must be between 8 and 128 and at least one character type must be selected");
  }
 
+
 }
 
 
 
-//Function to generate random password that should meet the length criteria 
-function genPW (numChars) {
-  let randPw = "";
-  for (let k=1;k <= parseInt(numChars); k++){
 
-    for ( let l = 0; l < pwReqS.length; l++ ) {
-      var1 = pwReqS.charAt(Math.floor(Math.random() * pwReqS.length));
-     }
-     randPw = randPw + var1;
- 
-     }
-    console.log(randPw);
-    return(randPw);
+//Function to generate random password that should meet the length criteria 
+function genPW (totChars) {
+  let randPw = [], rnd=0, nvm = "", var1="";
+  //console.log("from Gen pass " + pwReqS + " num " + pwReqS.length);
+  let l = pwReqS.length;
+  for (let k=1;k <= totChars; k++){
+      rnd = Math.floor(Math.random() * l);
+      var1 = pwReqS[rnd];
+     console.log(rnd +" = " +var1);
+     randPw.push(var1);
     }
 
 
-/* purpose verify we have at least 2 from each character set selected before returning 
-this can actually be changed by updating the dict object that has the num of each but then would need 
-to make sure that the length could support the required */
-function veri(passW){
-  console.log("here " + passW) ;
-  let noNum = 0, noLow = 0, noUp = 0, bad = 0;noSp = 0;
-  let verified ="no";
+    return randPw;
+    }
+
+
+
+/* purpose verify we have the minumums as specified indict before returning value */
+function veriPW(passW) {
+
+  let noNum = 0, noLow = 0, noUp = 0, noEm = 0, noSp = 0;
+  let verified ="no", var1 = "";
+  let veriConv = [];
   //if count how many of each we have
     
       for (let i=0;i < passW.length;i++) {
       let currChar =   passW[i];
 
-        if (numChar.includes(currChar)){
+        if (numCharA.includes(currChar)){
           noNum = noNum + 1;
-         } else if (lowChar.includes(currChar)) {
-           noLow =noLow + 1;
-         } else if (upChar.includes(currChar)) {
-           noUp =noUp + 1;
-         } else if (spcChar.includes(currChar)) {
-           noSp =noSp + 1;
-         }
+         } else if (lowCharA.includes(currChar)) {
+           noLow = noLow + 1;
+         } else if (upCharA.includes(currChar)) {
+           noUp = noUp + 1;
+         } else if (spcCharA.includes(currChar)) {
+           noSp = noSp + 1;
+         } else if (emCharA.includes(currChar)) {
+          noEm = noEm + 1;
         }
-        // if password require numbers upper and lower case letters then keep generating until the criteria is met
-        if((noNum >= dict.numsC) && (noLow >= dict.lowLC) && (noUp >= dict.upLC) && (noSp >= dict.spCC)){
+      }
+      
+     
+        // if checking if criteria is met and will return if validated
+        if((noNum >= dict.numsC) && (noLow >= dict.lowLC) && (noUp >= dict.upLC) && (noSp >= dict.spCC || noEm >= dict.emCC)){
         verified = "ok";
         } else {
           verified= "nope";
