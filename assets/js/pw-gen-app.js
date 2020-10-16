@@ -89,11 +89,10 @@ if((dict.nums||dict.upLet||dict.lowLet||dict.spChar||dict.emChar) &&  (totChars 
   $('#criteriaModal').modal('hide')
 // let's create our passowrd and reset form so we can run again
    createReturnPW();
-   cleanUpForm();
+   cleanUpForm("click");
 // otherwise alert and let user correct
  } else {
    alert("Number of Characters must be between 8 and 128 and at least one character type must be selected");
-   
    let formLabel = document.getElementById("criteriaModalLabel")
     formLabel.setAttribute ("class","heading");
     formLabel.innerHTML = "Please try again";
@@ -125,8 +124,7 @@ function updateCard(textH,textP) {
   pwContainer.appendChild(newH1);
   pwContainer.appendChild(newP);
   pwContainer.appendChild(newP2);
-  document.querySelector("#mainBtn").style.visibility = 'hidden';
-  
+  document.querySelector("#mainBtn").style.visibility = 'hidden'; 
 }
 
 //Function to generate random password that should meet the length criteria 
