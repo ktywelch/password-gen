@@ -1,6 +1,7 @@
 
 // modal is handle within the HTML - this is where we do the password stuff
-document.getElementById("btnSaveIt").onclick = createReturnPW;
+document.getElementById("btnSaveIt").onclick = checkForm;
+document.getElementById("btnClose").onclick = cleanUp;
 
 //these need to be global" 
 const charTypes = ["nums", "upLet", "lowLet", "spChar"];
@@ -37,21 +38,9 @@ var dict = {
 }
 
 
-// Main function calls others and returns the value to the form
+// Function calls others and returns the value to the form
 function createReturnPW(){
  let   veriConv = "", var1 ="";
- 
- 
-// clear things up between executions! 
-$('#retPWCont').empty();
- pwReqS.length = 0;
-
-// go get the parameters!
- getParams();
-
-
-  
-
      //generate random password that should meet the criteria  
      let newPw = [], isGood = "", n=0;
 
@@ -74,9 +63,9 @@ $('#retPWCont').empty();
 
 
      //Return the password to the user in container by usging get the element ID where I want this to go
-     var pwContainer = document.getElementById("retPWCont");
-     var newH1 = document.createElement("h1");
-     var newP = document.createElement("p");
+     let pwContainer = document.getElementById("retPWCont");
+     let newH1 = document.createElement("h1");
+     let newP = document.createElement("p");
 
      newH1.textContent = "Generated Password";
      newH1.setAttribute("class","heading")
@@ -90,7 +79,7 @@ $('#retPWCont').empty();
 
 
 
-function getParams(){
+function checkForm(){
 /*Function to get the parameters from the form and verify 
 at least one type is selected and that the # of characters is betwwen 8 adb 128*/
 
@@ -129,15 +118,31 @@ if((dict.nums||dict.upLet||dict.lowLet||dict.spChar||dict.emChar) &&  (totChars 
   $('#criteriaModal').on('hidden.bs.modal', function () {
      $(this).find('form').trigger('reset');
      });
+// let's create our passowrd!
+   createReturnPW();
+   cleanUp();
+ 
 // if we don't have at least one selected alert and keep form
  } else {
    alert("Number of Characters must be between 8 and 128 and at least one character type must be selected");
+   //let modalFormHdr = document.getElementById("criteriaModalLabel");
+   let formLabel = document.getElementById("criteriaModalLabel")
+    formLabel.setAttribute ("class","heading");
+    formLabel.innerHTML = "Please try again";
+   //cleanUp();
  }
 
 
 }
 
-
+function cleanUp() {
+  // cleans up the variables! 
+  document.getElementById("criteriaForm").reset();
+  let formLabel = document.getElementById("criteriaModalLabel")
+  formLabel.setAttribute ("class","normal");
+  formLabel.innerHTML = "Please Select your Criteria";
+  pwReqS.length = 0;
+}
 
 
 //Function to generate random password that should meet the length criteria 
