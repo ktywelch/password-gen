@@ -15,23 +15,18 @@
 </head>
 
 <body>
-  
-  <div class="d-flex p-2 bg_image bg_image ">
-
-   <div class="card bg-light mb-3 mx-auto w-50 border border-info">
+<div class="container-fluid">  
+<div id="baseCont" class="d-flex p-2 normal">
+ <div class="card bg-light mb-3 mx-auto w-50 border border-info">
        <div id="retPWCont" class="card-body mx-auto p-2">
         <h6 class="card-title text-muted">This will generate a password based on the selected criteria</h6>   
         </div>   
-     <!-- Button trigger modal --> 
-        <div class="card-footer ml-auto p-2">      
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#criteriaModal">Generate new password</button>
+          <div class="ml-auto p-2">      
+         <button id="mainBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#criteriaModal">Generate new password</button>
       </div>
    </div>
 </div>
-
-
-
-
+</div>
 
   <!-- Modal - This is based on the sample modal designs in this case a form with a submit action-->
   <div class="modal fade" id="criteriaModal" tabindex="-1" role="dialog" aria-labelledby="criteriaModalLabel" aria-hidden="true">

@@ -1,24 +1,24 @@
+var btnSaveIt = document.getElementById("btnSaveIt");
+var btnClose = document.getElementById("btnClose");
+//var list = document.getElementById("retPWCont");
+//list.removeChild(list.childNodes[0]);  
 
-// modal is handle within the HTML - this is where we do the password stuff
-document.getElementById("btnSaveIt").onclick = checkForm;
-document.getElementById("btnClose").onclick = cleanUp;
-
-//these need to be global" 
+//setting some variable as global and stings will be arrays 
 const charTypes = ["nums", "upLet", "lowLet", "spChar"];
-const spcChar = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+const spcChar = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+let spcCharA = spcChar.split('');
 const upChar = "ABCDEFGHIJKLMNOPQURSTUVXYZ";
+let upCharA = upChar.split('');
 const numChar = "123456789"
+let numCharA = numChar.split('');
 const lowChars = upChar.toLowerCase();
+let lowCharA = lowChars.split('');
 const emCharA = ["128512","128513","128514","128515","128516","128517","128518","128519","128520","128521","128522","128523",
 "128524","128525","128526","128527","128528","128529","128530","128531","128532","128533","128534","128535"];
 const pwReqS = [];
- totChars = 0;
-// need to have the strings as arrays
-let spcCharA = spcChar.split('');
-let upCharA = upChar.split('');
-let numCharA = numChar.split('');
-let lowCharA = lowChars.split('');
+var totChars = 0;
 
+// setting up data dictionary and methods
 var dict = {
   nums: false,
   numsC: 0,
@@ -37,22 +37,18 @@ var dict = {
   emCharTrue: function() {this.emChar = true; pwReqS.push.apply(pwReqS, emCharA); this.emCC = 1}
 }
 
-
-// Function calls others and returns the value to the form
+// Function calls pw create, calls verify and once completed updates the card
 function createReturnPW(){
- let   veriConv = "", var1 ="";
-     //generate random password that should meet the criteria  
-     let newPw = [], isGood = "", n=0;
-
+    let   veriConv = "", var1 ="", newPw = [], isGood = "", n=0;
      // Going to keep generating passwords until we get one that min 2 of each type
      while(isGood !== "ok"){
         newPw.length = 0; 
         newPw = genPW(totChars);
         isGood = veriPW(newPw);
       } 
-    // Now that we have emojis need to make the emojis viewable in the paragraph string
-    for (let i = 0; i< newPw.length;i++){
-      currChar = newPw[i];
+    // to support emojis need to make the  decimal value emojis viewable 
+      for (let i = 0; i< newPw.length;i++){
+         currChar = newPw[i];
       if (currChar > 1){
         var1 = String.fromCodePoint(parseInt(currChar));
       } else {
@@ -61,37 +57,18 @@ function createReturnPW(){
     veriConv = veriConv + var1;
     }
 
-
      //Return the password to the user in container by usging get the element ID where I want this to go
-     let pwContainer = document.getElementById("retPWCont");
-     let newH1 = document.createElement("h1");
-     let newP = document.createElement("p");
-
-     newH1.textContent = "Generated Password";
-     newH1.setAttribute("class","heading")
-     newP.textContent = veriConv;
-     newP.setAttribute("class","paragraph")
-     pwContainer.appendChild(newH1);
-     pwContainer.appendChild(newP);
-      
+     updateCard("This is your New Password",veriConv);
+     setTimeout(() => { window.location.reload();  }, 4000);
     }
 
-
-
-
+//Function to get the parameters from the form 
 function checkForm(){
-/*Function to get the parameters from the form and verify 
-at least one type is selected and that the # of characters is betwwen 8 adb 128*/
-
-//get all the checkboxes from the form
 let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
 //get the value of the field pwLen
 totChars = document.getElementById('pwLen').value;
-
 /*put if checkboxes are true or false update the dict object so that I can use it later
 the methods also prepares the characters for we will be using to generate the password*/
-
 for (var i = 0; i < checkboxes.length; i++) {
   let nm=checkboxes[i].name;
   let val=checkboxes[i].checked;
@@ -105,37 +82,26 @@ for (var i = 0; i < checkboxes.length; i++) {
   {dict.spCharTrue()}
   if (nm === "emChar" && val)
   {dict.emCharTrue()}
-    
-  //console.log(dict);
-  console.log("this is new array " + pwReqS);
 }
-
  //using the dict object to make sure at least one character type is selected and num of characters between 8 and 128 
 if((dict.nums||dict.upLet||dict.lowLet||dict.spChar||dict.emChar) &&  (totChars >= 8 &&  totChars <= 128)) {
   // Hide the modal again
   $('#criteriaModal').modal('hide')
-  //ANd reset the form fields to default  
-  $('#criteriaModal').on('hidden.bs.modal', function () {
-     $(this).find('form').trigger('reset');
-     });
-// let's create our passowrd!
+// let's create our passowrd and reset form so we can run again
    createReturnPW();
-   cleanUp();
- 
-// if we don't have at least one selected alert and keep form
+   cleanUpForm();
+// otherwise alert and let user correct
  } else {
    alert("Number of Characters must be between 8 and 128 and at least one character type must be selected");
-   //let modalFormHdr = document.getElementById("criteriaModalLabel");
+   
    let formLabel = document.getElementById("criteriaModalLabel")
     formLabel.setAttribute ("class","heading");
     formLabel.innerHTML = "Please try again";
-   //cleanUp();
  }
-
-
 }
 
-function cleanUp() {
+function cleanUpForm(e) {
+  e.preventDefault();
   // cleans up the variables! 
   document.getElementById("criteriaForm").reset();
   let formLabel = document.getElementById("criteriaModalLabel")
@@ -144,22 +110,35 @@ function cleanUp() {
   pwReqS.length = 0;
 }
 
+//Put updating the card into a function
+function updateCard(textH,textP) {
+  let pwContainer = document.getElementById("retPWCont");
+  let newH1 = document.createElement("h1");
+  let newP = document.createElement("p");
+  let newP2 = document.createElement("p");
+  newH1.textContent = textH;
+  newH1.setAttribute("class","heading")
+  newP.textContent = textP;
+  newP.setAttribute("class","paragraph")
+  newP2.textContent = "Password will remain on screen for 4 seconds"
+  newP2.setAttribute("class","notification")
+  pwContainer.appendChild(newH1);
+  pwContainer.appendChild(newP);
+  pwContainer.appendChild(newP2);
+  document.querySelector("#mainBtn").style.visibility = 'hidden';
+  
+}
 
 //Function to generate random password that should meet the length criteria 
 function genPW (totChars) {
-  let randPw = [], rnd=0, nvm = "", var1="";
-  //console.log("from Gen pass " + pwReqS + " num " + pwReqS.length);
-  let l = pwReqS.length;
+  let randPw = [], rnd=0;
+  console.log("from Gen pass " + pwReqS + " num " + pwReqS.length);
   for (let k=1;k <= totChars; k++){
-      rnd = Math.floor(Math.random() * l);
-      var1 = pwReqS[rnd];
-     console.log(rnd +" = " +var1);
-     randPw.push(var1);
+     rnd = Math.floor(Math.random() * pwReqS.length);
+     randPw.push(pwReqS[rnd]);
     }
-
-
-    return randPw;
-    }
+      return randPw;
+}
 
 
 
@@ -197,14 +176,5 @@ function veriPW(passW) {
           return verified;
 }
 
-
-
-
-
-
-/*
-function intersect(a, b) {
-  var aa = {};
-  a.forEach(function(v) { aa[v]=1; });
-  return b.filter(function(v) { return v in aa; });
-} */
+btnSaveIt.addEventListener("click",checkForm);
+btnClose.addEventListener("click",cleanUpForm);

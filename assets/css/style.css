@@ -14,14 +14,16 @@
     text-align: center;
 }
 
-.bg_image{
-  background-image: url(../images/safe-913452_1280.jpg) no-repeat center fixed;
-  background-size: cover;
- 
+.notification {
+  font-family: Verdana;
+  color: green;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 10px;
 }
 .html {    
-  background: url('https://cdn.bitdegree.org/learn/soap-colorful-color-fruit-68525.jpeg') no-repeat center fixed;     
-  background-size: cover;
+  background-color: aquamarine;    
+  font-family: Verdana;
 }
 
 .normal {
@@ -30,3 +32,4 @@
   font-size: 20px;
   letter-spacing: 1px;
   text-align: center;
+}
