@@ -103,6 +103,7 @@ function cleanUpForm(e) {
   e.preventDefault();
   // cleans up the variables! 
   document.getElementById("criteriaForm").reset();
+  window.location.reload();
   let formLabel = document.getElementById("criteriaModalLabel")
   formLabel.setAttribute ("class","normal");
   formLabel.innerHTML = "Please Select your Criteria";
