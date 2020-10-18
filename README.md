@@ -30,26 +30,36 @@ To run this project, install is a simple download and extraction of the site and
 the code relies on bootstrap style sheet and assoicated java scripts.
 
 ## User Guide
-The site is comprised of three pages - the first is my profile using overlay to show the text of hobbies.
+The application has a button to request a password as shown below
+![image](./assets/images/main_pw_gen.jpg)
 
-![image](./assets/Images/.jpg)
+The user is then prompted for the criteria. This uses a modal form from bootstrap css so the main form fades 
+as the input form comes to foreground. To submit the form user clicks the "Save Changes" button.
+![image](./assets/images/Failed_criteria.jpg)
 
-The porfolio page is utilizing cards 
-![image](./assets/Images/Portfolio.jpg)
+If the criteria does not meet the criteria the user will get a pop-up as defined in requirements:
+![image](./assets/images/Failed-popup.jpg)
 
-The contact page is utilizes a form has a template to allow users
-to add their contact information
-![image](./assets/Images/Contact.jpg)
+The user will be returned to the form and prompted to try again.
+![image](./assets/images/Failed_criteria.jpg)
+
+When the user enters the correct criteria and clicks on the "Save Changes" button.
+![image](./assets/images/Meet-criteria.jpg)
+
+If the criteria are correct the password is displayed for the user for 4 seconds.
+![image](./assets/images/show-pw.jpg)
+
+After which time the user is returned to the main screen.
+
 
 ## credits
 Much of the code used in this project was copied from the bootstrap 4 samples and W3C 
 sample documents. Adjustments were made to make the code work.
 
-Peer review by study group: Bonnie, Lucah, Jacky, Edgar, Franco
+Peer review by study group: Lucah, Franco, Eva
 
 Code Validated by https://validator.w3.org/
 
-Validation Script StackOverflow user Juan Marco
 
 
 
