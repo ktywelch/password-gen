@@ -32,7 +32,7 @@ the code relies on bootstrap style sheet and assoicated java scripts.
 ## User Guide
 The site is comprised of three pages - the first is my profile using overlay to show the text of hobbies.
 
-![image](./assets/Images/AboutMe.jpg)
+![image](./assets/Images/.jpg)
 
 The porfolio page is utilizing cards 
 ![image](./assets/Images/Portfolio.jpg)
