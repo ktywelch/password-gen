@@ -33,21 +33,24 @@ the code relies on bootstrap style sheet and assoicated java scripts.
 The application has a button to request a password as shown below
 ![image](./assets/images/main_pw_gen.jpg)
 
+
 The user is then prompted for the criteria. This uses a modal form from bootstrap css so the main form fades 
 as the input form comes to foreground. To submit the form user clicks the "Save Changes" button.
 ![image](./assets/images/Failed_criteria.jpg)
 
+
 If the criteria does not meet the criteria the user will get a pop-up as defined in requirements:
 ![image](./assets/images/Failed-popup.jpg)
 
-The user will be returned to the form and prompted to try again.
-![image](./assets/images/Failed_criteria.jpg)
 
+The user will be returned to the form and prompted to try again.
 When the user enters the correct criteria and clicks on the "Save Changes" button.
-![image](./assets/images/Meet-criteria.jpg)
+![image](./assets/images/enter-correct.jpg)
+
 
 If the criteria are correct the password is displayed for the user for 4 seconds.
 ![image](./assets/images/show-pw.jpg)
+
 
 After which time the user is returned to the main screen.
 
