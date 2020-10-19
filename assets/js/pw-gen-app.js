@@ -133,7 +133,7 @@ function updateCard(textH,textP) {
 function genPW (totChars) {
   let randPw = [], rnd=0;
   console.log("from Gen pass " + pwReqS + " num " + pwReqS.length);
-  for (let k=1;k <= totChars; k++){
+  for (let k=0;k <= totChars; k++){
      rnd = Math.floor(Math.random() * pwReqS.length);
      randPw.push(pwReqS[rnd]);
     }
